@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JajanYuk! - Jajanan Nusantara & Kekinian Serba Lezat</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icon CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Plus Jakarta Sans & Fraunces -->
+    <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700;9..144,800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        serif: ['"Fraunces"', 'serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#fff7ed',
+                            100: '#ffedd5',
+                            500: '#f97316',
+                            600: '#ea580c',
+                            700: '#c2410c',
+                            dark: '#29150A'
+                        }
+                    },
+                    animation: {
+                        'float-slow': 'floatSlow 6s ease-in-out infinite',
+                        'float-delayed': 'floatSlow 7s ease-in-out 2s infinite',
+                        'float-fast': 'floatFast 4s ease-in-out infinite',
+                        'marquee': 'marquee 28s linear infinite',
+                        'pulse-glow': 'pulseGlow 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        floatSlow: {
+                            '0%, 100%': { transform: 'translateY(0px) rotate(0deg)' },
+                            '50%': { transform: 'translateY(-14px) rotate(1.5deg)' },
+                        },
+                        floatFast: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-8px)' },
+                        },
+                        marquee: {
+                            '0%': { transform: 'translateX(0%)' },
+                            '100%': { transform: 'translateX(-50%)' },
+                        },
+                        pulseGlow: {
+                            '0%, 100%': { boxShadow: '0 10px 25px -5px rgba(234, 88, 12, 0.35)' },
+                            '50%': { boxShadow: '0 20px 35px -5px rgba(245, 158, 11, 0.55)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        /* Warm Orange & White Gradient with Subtle Culinary Pattern */
+        .bg-culinary-pattern {
+            background-color: #FFF7ED;
+            background-image:
+                radial-gradient(rgba(234, 88, 12, 0.11) 1.2px, transparent 1.2px),
+                linear-gradient(180deg, #FED7AA 0%, #FFF7ED 16%, #FFFFFF 36%, #FFEDD5 58%, #FFFFFF 80%, #FED7AA 100%);
+            background-size: 26px 26px, 100% 100%;
+        }
+
+        /* Scroll Reveal Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(32px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-36px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(36px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-scale {
+            opacity: 0;
+            transform: scale(0.92);
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active,
+        .reveal-left.active,
+        .reveal-right.active,
+        .reveal-scale.active {
+            opacity: 1;
+            transform: translate(0, 0) scale(1);
+        }
+
+        /* Stagger Delays */
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+        .delay-400 { transition-delay: 400ms; }
+
+        /* Marquee Pause on Hover */
+        .marquee-wrapper:hover .animate-marquee {
+            animation-play-state: paused;
+        }
+
+        /* Shimmer Button Effect */
+        .btn-shimmer {
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-shimmer::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+            transform: skewX(-20deg);
+            animation: shimmerSweep 3.5s infinite;
+        }
+        @keyframes shimmerSweep {
+            0%, 60% { left: -100%; }
+            100% { left: 160%; }
+        }
+    </style>
+</head>
+<body class="bg-culinary-pattern text-brand-dark font-sans antialiased flex flex-col min-h-screen selection:bg-orange-500 selection:text-white">
+
+    <!-- Navigation Header -->
+    <header id="mainHeader" class="sticky top-0 z-40 bg-[#FFFBF5]/85 backdrop-blur-xl border-b border-amber-200/60 transition-all duration-300">
+        <!-- Scroll Progress Bar -->
+        <div id="scrollProgress" class="h-[3px] bg-gradient-to-r from-orange-600 via-amber-500 to-orange-400 w-0 transition-all duration-150"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Brand Logo -->
+                <a href="#" class="flex items-center gap-3 group">
+                    <div class="w-11 h-11 bg-gradient-to-tr from-orange-600 to-amber-400 rounded-2xl flex items-center justify-center text-white text-xl shadow-md shadow-orange-500/20 group-hover:scale-105 group-hover:rotate-3 transition-all duration-300">
+                        <i class="fa-solid font-bold fa-cookie-bite"></i>
+                    </div>
+                    <div>
+                        <span class="font-serif text-2xl font-extrabold bg-gradient-to-r from-orange-700 via-orange-600 to-amber-600 bg-clip-text text-transparent">JajanYuk!</span>
+                        <span class="block text-[10px] font-bold tracking-[0.2em] text-amber-800/80 uppercase -mt-1">Nusantara & Kekinian</span>
+                    </div>
+                </a>
+
+                <!-- Desktop Nav Links -->
+                <nav class="hidden md:flex items-center gap-8 font-semibold text-sm text-stone-700">
+                    <a href="#home" class="relative hover:text-orange-600 transition-colors py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-orange-500 hover:after:w-full after:transition-all">Beranda</a>
+                    <a href="#katalog" class="relative hover:text-orange-600 transition-colors py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-orange-500 hover:after:w-full after:transition-all">Katalog Jajanan</a>
+                    <a href="#keunggulan" class="relative hover:text-orange-600 transition-colors py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-orange-500 hover:after:w-full after:transition-all">Keunggulan</a>
+                    <a href="#testimoni" class="relative hover:text-orange-600 transition-colors py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-orange-500 hover:after:w-full after:transition-all">Testimoni</a>
+                    <a href="#faq" class="relative hover:text-orange-600 transition-colors py-1 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-orange-500 hover:after:w-full after:transition-all">FAQ</a>
+                </nav>
+
+                <!-- Search & Cart Action -->
+                <div class="flex items-center gap-3">
+                    <!-- Search Input (Desktop) -->
+                    <div class="relative hidden sm:block w-48 lg:w-64">
+                        <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="Cari jajanan favorit..." 
+                            class="w-full bg-white/80 text-sm border border-amber-200/80 rounded-full py-2.5 pl-9 pr-4 text-stone-700 placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-orange-500/40 focus:border-orange-500 focus:bg-white transition-all shadow-sm">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-amber-500 text-xs"></i>
+                    </div>
+
+                    <!-- Cart Trigger Button -->
+                    <button onclick="toggleCartDrawer()" aria-label="Buka Keranjang" class="relative p-3 bg-white hover:bg-orange-600 hover:text-white border border-amber-200/80 rounded-full text-orange-700 transition-all duration-300 focus:outline-none shadow-sm hover:shadow-md hover:-translate-y-0.5">
+                        <i class="fa-solid fa-shopping-bag text-lg"></i>
+                        <span id="cartBadge" class="absolute -top-1 -right-1 bg-red-500 text-white text-[11px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white scale-0 transition-transform duration-300">0</span>
+                    </button>
+
+                    <!-- Mobile Menu Button -->
+                    <button onclick="toggleMobileMenu()" aria-label="Menu Navigasi" class="md:hidden p-2.5 rounded-xl bg-white border border-amber-200/80 text-stone-700 hover:text-orange-600 focus:outline-none">
+                        <i id="menuIcon" class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu Dropdown -->
+        <div id="mobileMenu" class="hidden md:hidden bg-[#FFFBF5] border-b border-amber-200/70 px-4 pt-3 pb-6 space-y-3 shadow-xl">
+            <div class="relative mb-3">
+                <input type="text" id="mobileSearchInput" onkeyup="filterProductsMobile()" placeholder="Cari jajanan..." 
+                    class="w-full bg-white text-sm border border-amber-200 rounded-xl py-2.5 pl-9 pr-4 text-stone-700">
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-3.5 text-amber-500 text-xs"></i>
+            </div>
+            <a href="#home" onclick="toggleMobileMenu()" class="block py-2 font-semibold text-stone-700 hover:text-orange-600">Beranda</a>
+            <a href="#katalog" onclick="toggleMobileMenu()" class="block py-2 font-semibold text-stone-700 hover:text-orange-600">Katalog Jajanan</a>
+            <a href="#keunggulan" onclick="toggleMobileMenu()" class="block py-2 font-semibold text-stone-700 hover:text-orange-600">Keunggulan</a>
+            <a href="#testimoni" onclick="toggleMobileMenu()" class="block py-2 font-semibold text-stone-700 hover:text-orange-600">Testimoni</a>
+            <a href="#faq" onclick="toggleMobileMenu()" class="block py-2 font-semibold text-stone-700 hover:text-orange-600">FAQ</a>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow">
+        <!-- Hero Section -->
+        <section id="home" class="relative overflow-hidden pt-10 pb-20 lg:py-24 bg-gradient-to-br from-orange-200/70 via-orange-50/80 to-white">
+            <!-- Animated Ambient Background Orbs -->
+            <div class="pointer-events-none absolute top-10 left-10 w-72 h-72 bg-orange-400/25 rounded-full blur-3xl animate-float-slow"></div>
+            <div class="pointer-events-none absolute bottom-10 right-10 w-80 h-80 bg-amber-300/30 rounded-full blur-3xl animate-float-delayed"></div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 items-center">
+                    
+                    <!-- Left Hero Text -->
+                    <div class="lg:col-span-7 space-y-6 text-center lg:text-left reveal-left">
+                        <h1 class="font-serif text-4xl sm:text-5xl lg:text-[3.5rem] font-extrabold text-brand-dark leading-[1.15] tracking-tight">
+                            Nikmati Gurih & Manisnya <br class="hidden sm:inline">
+                            <span class="bg-gradient-to-r from-orange-600 via-amber-600 to-orange-500 bg-clip-text text-transparent">Jajanan Favorit Keluarga!</span>
+                        </h1>
+                        
+                        <p class="text-stone-600 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 font-normal leading-relaxed">
+                            Dari kue tradisional yang lumer di mulut hingga keripik pedas super renyah kekinian. Diracik <span class="font-semibold text-stone-800">fresh setiap hari</span> dengan bahan pilihan tanpa pengawet buatan.
+                        </p>
+
+                        <!-- CTA Buttons -->
+                        <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+                            <a href="#katalog" class="btn-shimmer animate-pulse-glow w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-orange-600 to-amber-500 text-white font-bold rounded-2xl hover:scale-[1.03] transition-all duration-300 text-center flex items-center justify-center gap-2.5">
+                                <i class="fa-solid fa-store"></i> Jelajahi Menu Jajanan
+                            </a>
+                            <a href="#keunggulan" class="w-full sm:w-auto px-7 py-4 bg-white/90 hover:bg-white text-stone-800 font-bold rounded-2xl border border-amber-200 shadow-sm hover:shadow-md transition-all duration-300 text-center flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-award text-amber-500"></i> Kenapa JajanYuk?
+                            </a>
+                        </div>
+
+                        <!-- Trust Badge Info with Animated Counters -->
+                        <div class="pt-7 grid grid-cols-3 gap-4 border-t border-amber-200/70 max-w-lg mx-auto lg:mx-0">
+                            <div>
+                                <span class="block font-serif text-2xl sm:text-3xl font-black text-orange-600 counter" data-target="10000" data-suffix="+">10.000+</span>
+                                <span class="text-xs text-stone-500 font-semibold">Pelanggan Puas</span>
+                            </div>
+                            <div>
+                                <span class="block font-serif text-2xl sm:text-3xl font-black text-orange-600">4.9 ★</span>
+                                <span class="text-xs text-stone-500 font-semibold">Rating Rasa</span>
+                            </div>
+                            <div>
+                                <span class="block font-serif text-2xl sm:text-3xl font-black text-orange-600 counter" data-target="100" data-suffix="%">100%</span>
+                                <span class="text-xs text-stone-500 font-semibold">Fresh Daily</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Hero Image Showcase -->
+                    <div class="lg:col-span-5 relative reveal-right delay-200">
+                        <div class="relative mx-auto w-full max-w-md lg:max-w-none">
+                            <div class="absolute -inset-3 bg-gradient-to-tr from-orange-400/30 via-amber-300/30 to-transparent rounded-[2rem] blur-xl"></div>
+
+                            <div class="relative bg-white/95 backdrop-blur p-3.5 rounded-[2rem] shadow-2xl border border-amber-100 animate-float-slow">
+                                <div class="overflow-hidden rounded-2xl">
+                                    <img src="https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?q=80&w=800&auto=format&fit=crop" 
+                                         onerror="this.src='https://placehold.co/600x450/f97316/ffffff?text=Jajanan+Nusantara'" 
+                                         alt="Jajanan Nusantara" 
+                                         class="w-full h-80 sm:h-96 object-cover hover:scale-105 transition-transform duration-700">
+                                </div>
+                                
+                                <!-- Floating Review Badge -->
+                                <div class="absolute -bottom-5 -left-4 bg-white/95 backdrop-blur-md p-3.5 rounded-2xl shadow-xl border border-amber-100 flex items-center gap-3 animate-float-fast">
+                                    <div class="w-11 h-11 rounded-xl bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold">
+                                        <i class="fa-solid fa-leaf text-lg"></i>
+                                    </div>
+                                    <div class="text-left">
+                                        <div class="text-xs font-extrabold text-stone-800">100% Bahan Alami</div>
+                                        <div class="text-[11px] text-stone-500 font-medium">Bebas Bahan Pengawet</div>
+                                    </div>
+                                </div>
+
+                                <!-- Floating Badge Top Right -->
+                                <div class="absolute -top-4 -right-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold text-xs px-4 py-2.5 rounded-2xl shadow-lg border-2 border-white flex items-center gap-1.5 animate-float-delayed">
+                                    <i class="fa-solid fa-crown text-yellow-200"></i> Best Seller No.1
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Running Infinite Marquee Strip -->
+        <div class="marquee-wrapper bg-brand-dark text-amber-100 py-3.5 overflow-hidden border-y border-amber-900/50 select-none">
+            <div class="flex whitespace-nowrap animate-marquee w-max">
+                <div class="flex items-center gap-8 px-4 text-xs sm:text-sm font-semibold tracking-wide">
+                    <span class="flex items-center gap-2"><i class="fa-solid fa-sparkles text-amber-400"></i> 100% Bahan Baku Pilihan</span>
+                    <span class="text-amber-500">•</span>
+                    <span class="flex items-center gap-2"><i class="fa-solid fa-fire-flame-curved text-orange-400"></i> Dibuat Fresh Setiap Hari</span>
+                    <span class="text-amber-500">•</span>
+                    <span class="flex items-center gap-2"><i class="fa-solid fa-shield-halved text-emerald-400"></i> Terjamin Halal & Higienis</span>
+                    <span class="text-amber-500">•</span>
+                    <span class="flex items-center gap-2"><i class="fa-solid fa-box-open text-amber-400"></i> Kemasan Aman & Rapi</span>
+                    <span class="text-amber-500">•</span>
+                    <span class="flex items-center gap-2"><i class="fa-brands fa-whatsapp text-emerald-400"></i> Pemesanan Cepat via WhatsApp</span>
+                    <span class="text-amber-500">•</span>
+                </div>
+                <div class="flex items-center gap-8 px-4 text-xs sm:text-sm font-semibold tracking-wide" aria-hidden="true">
+                    <span class="flex items-center gap-2"><i class="fa-solid fa-sparkles text-amber-400"></i> 100% Bahan Baku Pilihan</span>
+                    <span class="text-amber-500">•</span>
+                    <span class="flex items-center gap-2"><i class="fa-solid fa-fire-flame-curved text-orange-400"></i> Dibuat Fresh Setiap Hari</span>
+                    <span class="text-amber-500">•</span>
+                    <span class="flex items-center gap-2"><i class="fa-solid fa-shield-halved text-emerald-400"></i> Terjamin Halal & Higienis</span>
+                    <span class="text-amber-500">•</span>
+                    <span class="flex items-center gap-2"><i class="fa-solid fa-box-open text-amber-400"></i> Kemasan Aman & Rapi</span>
+                    <span class="text-amber-500">•</span>
+                    <span class="flex items-center gap-2"><i class="fa-brands fa-whatsapp text-emerald-400"></i> Pemesanan Cepat via WhatsApp</span>
+                    <span class="text-amber-500">•</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Keunggulan Section -->
+        <section id="keunggulan" class="py-16 bg-gradient-to-b from-white/95 via-orange-50/60 to-white/90 backdrop-blur-sm border-b border-orange-200/60">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-5 sm:gap-6">
+                    <div class="reveal delay-100 group p-6 rounded-3xl bg-white border border-amber-100/90 text-center shadow-sm hover:shadow-xl hover:-translate-y-1.5 hover:border-orange-300 transition-all duration-300">
+                        <div class="w-14 h-14 mx-auto bg-orange-100 text-orange-600 rounded-2xl flex items-center justify-center text-2xl mb-4 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300">
+                            <i class="fa-solid fa-certificate"></i>
+                        </div>
+                        <h4 class="font-bold text-stone-800 text-sm sm:text-base">Terjamin Halal</h4>
+                        <p class="text-xs text-stone-500 mt-1.5 leading-relaxed">Menggunakan bahan baku halal & higienis 100%</p>
+                    </div>
+
+                    <div class="reveal delay-200 group p-6 rounded-3xl bg-white border border-amber-100/90 text-center shadow-sm hover:shadow-xl hover:-translate-y-1.5 hover:border-amber-300 transition-all duration-300">
+                        <div class="w-14 h-14 mx-auto bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center text-2xl mb-4 group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-300">
+                            <i class="fa-solid fa-bowl-food"></i>
+                        </div>
+                        <h4 class="font-bold text-stone-800 text-sm sm:text-base">Rasa Otentik</h4>
+                        <p class="text-xs text-stone-500 mt-1.5 leading-relaxed">Resep warisan kuliner khas Nusantara</p>
+                    </div>
+
+                    <div class="reveal delay-300 group p-6 rounded-3xl bg-white border border-amber-100/90 text-center shadow-sm hover:shadow-xl hover:-translate-y-1.5 hover:border-emerald-300 transition-all duration-300">
+                        <div class="w-14 h-14 mx-auto bg-emerald-100 text-emerald-600 rounded-2xl flex items-center justify-center text-2xl mb-4 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-300">
+                            <i class="fa-solid fa-truck-fast"></i>
+                        </div>
+                        <h4 class="font-bold text-stone-800 text-sm sm:text-base">Pengiriman Cepat</h4>
+                        <p class="text-xs text-stone-500 mt-1.5 leading-relaxed">Dikirim langsung di hari pembuatan (Fresh)</p>
+                    </div>
+
+                    <div class="reveal delay-400 group p-6 rounded-3xl bg-white border border-amber-100/90 text-center shadow-sm hover:shadow-xl hover:-translate-y-1.5 hover:border-rose-300 transition-all duration-300">
+                        <div class="w-14 h-14 mx-auto bg-rose-100 text-rose-600 rounded-2xl flex items-center justify-center text-2xl mb-4 group-hover:scale-110 group-hover:-rotate-6 transition-transform duration-300">
+                            <i class="fa-solid fa-hand-holding-dollar"></i>
+                        </div>
+                        <h4 class="font-bold text-stone-800 text-sm sm:text-base">Harga Terjangkau</h4>
+                        <p class="text-xs text-stone-500 mt-1.5 leading-relaxed">Kualitas bintang 5, harga tetap ramah kantong</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Product Catalog Section -->
+        <section id="katalog" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-12 space-y-3 reveal">
+                <span class="inline-block text-xs font-extrabold uppercase tracking-[0.2em] text-orange-600 bg-orange-100/80 px-3.5 py-1.5 rounded-full">Menu Spesial Kami</span>
+                <h2 class="font-serif text-3xl sm:text-4xl font-extrabold text-brand-dark">Pilihan Jajanan Terfavorit</h2>
+                <p class="text-stone-600 text-sm sm:text-base">Pilih camilan kesukaanmu, klik tambah ke keranjang, lalu pesan mudah langsung via WhatsApp!</p>
+            </div>
+
+            <!-- Category Filter Pills -->
+            <div class="reveal delay-100 flex items-center justify-start sm:justify-center gap-2.5 overflow-x-auto pt-3 pb-4 px-2 mb-8 no-scrollbar">
+                <button onclick="setCategory('all', this)" class="category-btn active border px-5 py-2.5 rounded-full text-sm font-bold whitespace-nowrap transition-all duration-300 bg-gradient-to-r from-orange-600 to-amber-500 text-white border-transparent shadow-md shadow-orange-500/25 focus:outline-none">
+                    Semua Jajanan
+                </button>
+                <button onclick="setCategory('pasar', this)" class="category-btn border px-5 py-2.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all duration-300 bg-white text-stone-600 border-amber-200/80 hover:border-orange-500 hover:text-orange-600 hover:-translate-y-0.5 focus:outline-none">
+                    Jajanan Pasar
+                </button>
+                <button onclick="setCategory('renyah', this)" class="category-btn border px-5 py-2.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all duration-300 bg-white text-stone-600 border-amber-200/80 hover:border-orange-500 hover:text-orange-600 hover:-translate-y-0.5 focus:outline-none">
+                    🥔 Keripik & Renyah
+                </button>
+                <button onclick="setCategory('basah', this)" class="category-btn border px-5 py-2.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all duration-300 bg-white text-stone-600 border-amber-200/80 hover:border-orange-500 hover:text-orange-600 hover:-translate-y-0.5 focus:outline-none">
+                    🍰 Kue & Pastry
+                </button>
+                <button onclick="setCategory('kekinian', this)" class="category-btn border px-5 py-2.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all duration-300 bg-white text-stone-600 border-amber-200/80 hover:border-orange-500 hover:text-orange-600 hover:-translate-y-0.5 focus:outline-none">
+                    🔥 Snack Kekinian
+                </button>
+                <button onclick="setCategory('minuman', this)" class="category-btn border px-5 py-2.5 rounded-full text-sm font-semibold whitespace-nowrap transition-all duration-300 bg-white text-stone-600 border-amber-200/80 hover:border-orange-500 hover:text-orange-600 hover:-translate-y-0.5 focus:outline-none">
+                    🥤 Minuman Segar
+                </button>
+            </div>
+
+            <!-- Products Grid -->
+            <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-7">
+                <!-- Products will be rendered dynamically by JS -->
+            </div>
+
+            <!-- Empty Product State -->
+            <div id="emptyState" class="hidden text-center py-14 reveal">
+                <div class="w-20 h-20 mx-auto bg-amber-100 rounded-full flex items-center justify-center text-amber-600 text-3xl mb-4 animate-float-fast">
+                    <i class="fa-solid fa-cookie"></i>
+                </div>
+                <h3 class="text-lg font-bold text-stone-800">Jajanan Tidak Ditemukan</h3>
+                <p class="text-sm text-stone-500 mt-1">Coba gunakan kata kunci pencarian atau kategori lain.</p>
+            </div>
+        </section>
+
+        <!-- Testimonial Section -->
+        <section id="testimoni" class="py-20 bg-gradient-to-br from-orange-100/80 via-white to-orange-100/70 border-y border-orange-200/70">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-2xl mx-auto mb-14 reveal">
+                    <span class="inline-block text-xs font-extrabold uppercase tracking-[0.2em] text-amber-700 bg-amber-200/60 px-3.5 py-1.5 rounded-full mb-3">Ulasan Pelanggan</span>
+                    <h2 class="font-serif text-3xl sm:text-4xl font-extrabold text-brand-dark">Apa Kata Pecinta Jajanan?</h2>
+                    <p class="text-stone-600 text-sm sm:text-base mt-2">Cerita jujur dari ribuan pelanggan setia JajanYuk!</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-7">
+                    <!-- Testimonial 1 -->
+                    <div class="reveal delay-100 relative bg-white p-7 rounded-3xl shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 border border-amber-100 space-y-4">
+                        <i class="fa-solid fa-quote-right absolute top-6 right-6 text-3xl text-amber-100"></i>
+                        <div class="flex items-center gap-1 text-amber-400 text-sm">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-stone-600 text-sm leading-relaxed italic">"Klepon lumernya juara banget! Gula arennya benar-benar melimpah dan gurih kelapanya pas. Dikirim masih hangat!"</p>
+                        <div class="flex items-center gap-3 pt-3 border-t border-amber-100/70">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-orange-500 to-amber-400 font-bold text-white flex items-center justify-center shadow-sm">S</div>
+                            <div>
+                                <h5 class="font-bold text-sm text-stone-800">Siti Rahmawati</h5>
+                                <span class="text-xs text-stone-400">Pekalongan</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Testimonial 2 -->
+                    <div class="reveal delay-200 relative bg-white p-7 rounded-3xl shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 border border-amber-100 space-y-4">
+                        <i class="fa-solid fa-quote-right absolute top-6 right-6 text-3xl text-amber-100"></i>
+                        <div class="flex items-center gap-1 text-amber-400 text-sm">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-stone-600 text-sm leading-relaxed italic">"Basreng pedas daun jeruknya nagih abis! Bumbunya melimpah dan tidak keras sama sekali saat dikunyah. Repeat order terus!"</p>
+                        <div class="flex items-center gap-3 pt-3 border-t border-amber-100/70">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-amber-500 to-yellow-400 font-bold text-white flex items-center justify-center shadow-sm">B</div>
+                            <div>
+                                <h5 class="font-bold text-sm text-stone-800">Budi Pratama</h5>
+                                <span class="text-xs text-stone-400">Pekalongan</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Testimonial 3 -->
+                    <div class="reveal delay-300 relative bg-white p-7 rounded-3xl shadow-sm hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 border border-amber-100 space-y-4">
+                        <i class="fa-solid fa-quote-right absolute top-6 right-6 text-3xl text-amber-100"></i>
+                        <div class="flex items-center gap-1 text-amber-400 text-sm">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                        <p class="text-stone-600 text-sm leading-relaxed italic">"Pesan via WhatsApp cepat banget diresponnya. Packaging aman pakai bubble wrap tebal, risoles mayonya masih crispy."</p>
+                        <div class="flex items-center gap-3 pt-3 border-t border-amber-100/70">
+                            <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-emerald-500 to-teal-400 font-bold text-white flex items-center justify-center shadow-sm">D</div>
+                            <div>
+                                <h5 class="font-bold text-sm text-stone-800">Dina Lestari</h5>
+                                <span class="text-xs text-stone-400">Pekalongan</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section id="faq" class="py-20 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 reveal">
+                <span class="inline-block text-xs font-extrabold uppercase tracking-[0.2em] text-orange-600 bg-orange-100/80 px-3.5 py-1.5 rounded-full mb-3">Bantuan</span>
+                <h2 class="font-serif text-3xl sm:text-4xl font-extrabold text-brand-dark">Sering Ditanyakan (FAQ)</h2>
+                <p class="text-stone-600 text-sm sm:text-base mt-2">Punya pertanyaan seputar pemesanan? Temukan jawabannya di bawah ini.</p>
+            </div>
+
+            <div class="space-y-4">
+                <!-- FAQ Item 1 -->
+                <div class="reveal delay-100 border border-amber-200/80 rounded-2xl bg-white overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                    <button onclick="toggleFaq(1)" class="w-full text-left p-5 font-bold text-stone-800 flex justify-between items-center hover:bg-amber-50/60 transition-colors">
+                        <span>Bagaimana cara melakukan pemesanan jajanan?</span>
+                        <i id="faq-icon-1" class="fa-solid fa-chevron-down text-orange-500 transition-transform duration-300"></i>
+                    </button>
+                    <div id="faq-ans-1" class="hidden p-5 pt-0 text-sm text-stone-600 border-t border-amber-100/60 leading-relaxed">
+                        Anda cukup memilih jajanan yang diinginkan, klik "Tambah", masukkan alamat pengiriman pada keranjang, dan tekan tombol "Pesan via WhatsApp". Pesanan Anda akan terformat otomatis dan langsung terhubung dengan admin kami.
+                    </div>
+                </div>
+
+                <!-- FAQ Item 2 -->
+                <div class="reveal delay-200 border border-amber-200/80 rounded-2xl bg-white overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                    <button onclick="toggleFaq(2)" class="w-full text-left p-5 font-bold text-stone-800 flex justify-between items-center hover:bg-amber-50/60 transition-colors">
+                        <span>Berapa lama daya tahan jajanan basah & kering?</span>
+                        <i id="faq-icon-2" class="fa-solid fa-chevron-down text-orange-500 transition-transform duration-300"></i>
+                    </button>
+                    <div id="faq-ans-2" class="hidden p-5 pt-0 text-sm text-stone-600 border-t border-amber-100/60 leading-relaxed">
+                        Jajanan basah (seperti klepon & risoles) bertahan 1-2 hari pada suhu ruang. Sedangkan jajanan kering & keripik bertahan hingga 3-6 bulan dalam kemasan tertutup rapat.
+                    </div>
+                </div>
+
+                <!-- FAQ Item 3 -->
+                <div class="reveal delay-300 border border-amber-200/80 rounded-2xl bg-white overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+                    <button onclick="toggleFaq(3)" class="w-full text-left p-5 font-bold text-stone-800 flex justify-between items-center hover:bg-amber-50/60 transition-colors">
+                        <span>Apakah bisa kirim keluar kota?</span>
+                        <i id="faq-icon-3" class="fa-solid fa-chevron-down text-orange-500 transition-transform duration-300"></i>
+                    </button>
+                    <div id="faq-ans-3" class="hidden p-5 pt-0 text-sm text-stone-600 border-t border-amber-100/60 leading-relaxed">
+                        Ya! Untuk kategori Keripik & Snack Kekinian kami melayani pengiriman ke seluruh wilayah Indonesia dengan ekspedisi kilat (JNE, J&T, SiCepat).
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-[#1F1109] text-amber-100/80 pt-14 pb-8 border-t border-amber-900/40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8 pb-10 border-b border-amber-900/40">
+            <!-- Brand Column -->
+            <div class="space-y-4">
+                <div class="flex items-center gap-2.5">
+                    <div class="w-10 h-10 bg-gradient-to-tr from-orange-600 to-amber-400 rounded-xl flex items-center justify-center text-white font-bold shadow-md">
+                        <i class="fa-solid fa-cookie-bite"></i>
+                    </div>
+                    <span class="font-serif text-2xl font-bold text-white">JajanYuk!</span>
+                </div>
+                <p class="text-xs text-amber-200/70 leading-relaxed">
+                    Menghadirkan aneka jajanan tradisional dan camilan kekinian khas Pekalongan yang dibuat segar setiap hari dengan cita rasa istimewa dan harga bersahabat.
+                </p>
+            </div>
+
+            <!-- Quick Links -->
+            <div>
+                <h4 class="text-sm font-bold text-white uppercase tracking-wider mb-4">Navigasi</h4>
+                <ul class="space-y-2.5 text-xs">
+                    <li><a href="#home" class="hover:text-amber-400 transition-colors">Beranda</a></li>
+                    <li><a href="#katalog" class="hover:text-amber-400 transition-colors">Katalog Jajanan</a></li>
+                    <li><a href="#keunggulan" class="hover:text-amber-400 transition-colors">Keunggulan Kami</a></li>
+                    <li><a href="#testimoni" class="hover:text-amber-400 transition-colors">Testimoni</a></li>
+                    <li><a href="#faq" class="hover:text-amber-400 transition-colors">FAQ</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact Info -->
+            <div>
+                <h4 class="text-sm font-bold text-white uppercase tracking-wider mb-4">Hubungi Kami</h4>
+                <ul class="space-y-2.5 text-xs text-amber-200/75">
+                    <li class="flex items-center gap-2.5"><i class="fa-brands fa-whatsapp text-emerald-400 text-sm"></i> +62 858-6781-5390</li>
+                    <li class="flex items-center gap-2.5"><i class="fa-regular fa-envelope text-orange-400 text-sm"></i> halo@jajanyuk.com</li>
+                    <li class="flex items-center gap-2.5"><i class="fa-solid fa-location-dot text-rose-400 text-sm"></i> Pekalongan, Indonesia</li>
+                </ul>
+            </div>
+
+            <!-- Social Media -->
+            <div>
+                <h4 class="text-sm font-bold text-white uppercase tracking-wider mb-4">Ikuti Kami</h4>
+                <div class="flex gap-3 text-amber-200/80">
+                    <a href="#" aria-label="Instagram" class="w-9 h-9 rounded-full bg-amber-950/80 border border-amber-800/50 flex items-center justify-center hover:bg-orange-500 hover:text-white hover:-translate-y-1 transition-all"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" aria-label="TikTok" class="w-9 h-9 rounded-full bg-amber-950/80 border border-amber-800/50 flex items-center justify-center hover:bg-orange-500 hover:text-white hover:-translate-y-1 transition-all"><i class="fa-brands fa-tiktok"></i></a>
+                    <a href="#" aria-label="Facebook" class="w-9 h-9 rounded-full bg-amber-950/80 border border-amber-800/50 flex items-center justify-center hover:bg-orange-500 hover:text-white hover:-translate-y-1 transition-all"><i class="fa-brands fa-facebook-f"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 text-center text-xs text-amber-200/80">
+            <p class="font-medium tracking-wide">&copy; 2026 JajanYuk! Pekalongan. All rights reserved. 0045, 0052, 0062, 0063, 0065, 0067.</p>
+        </div>
+    </footer>
+
+    <!-- SHOPPING CART SLIDE-OVER DRAWER -->
+    <div id="cartBackdrop" onclick="toggleCartDrawer()" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 opacity-0 pointer-events-none transition-opacity duration-300"></div>
+    <aside id="cartDrawer" class="fixed top-0 right-0 h-full w-full sm:w-96 bg-white z-50 shadow-2xl transform translate-x-full transition-transform duration-300 flex flex-col">
+        <!-- Drawer Header -->
+        <div class="p-5 border-b border-amber-100 flex items-center justify-between bg-amber-50/50">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-cart-shopping text-orange-600"></i>
+                <h3 class="font-bold text-lg text-gray-800">Keranjang Belanja</h3>
+            </div>
+            <button onclick="toggleCartDrawer()" class="w-8 h-8 rounded-full hover:bg-gray-200 text-gray-500 flex items-center justify-center">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <!-- Drawer Cart Items list -->
+        <div id="cartItemsContainer" class="flex-grow overflow-y-auto p-5 space-y-4">
+            <!-- Rendered by JS -->
+        </div>
+
+        <!-- Drawer Footer & Checkout -->
+        <div class="p-5 border-t border-amber-100 bg-amber-50/30 space-y-3">
+            <!-- Price Breakdown -->
+            <div class="space-y-1.5 text-xs text-gray-600">
+                <div class="flex justify-between">
+                    <span>Subtotal</span>
+                    <span id="subtotalPrice" class="font-bold text-gray-800">Rp 0</span>
+                </div>
+                <div class="flex justify-between text-sm font-extrabold text-gray-900 pt-1.5 border-t border-dashed border-gray-200">
+                    <span>Total Pembayaran</span>
+                    <span id="totalPrice" class="text-orange-600">Rp 0</span>
+                </div>
+            </div>
+
+            <!-- Customer Notes / Address Input -->
+            <div class="space-y-2 pt-2">
+                <input type="text" id="customerName" placeholder="Nama Lengkap Anda" class="w-full bg-white border border-gray-200 text-xs rounded-xl p-2.5">
+                <textarea id="customerAddress" rows="2" placeholder="Alamat Lengkap Pengiriman..." class="w-full bg-white border border-gray-200 text-xs rounded-xl p-2.5"></textarea>
+            </div>
+
+            <!-- WhatsApp Checkout Button -->
+            <button onclick="checkoutToWhatsApp()" class="w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-sm rounded-2xl shadow-lg shadow-emerald-600/30 flex items-center justify-center gap-2 transition-all">
+                <i class="fa-brands fa-whatsapp text-lg"></i> Pesan via WhatsApp
+            </button>
+        </div>
+    </aside>
+
+    <!-- PRODUCT DETAIL MODAL -->
+    <div id="productModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="bg-white w-full max-w-lg rounded-3xl overflow-hidden shadow-2xl transform scale-95 transition-transform duration-300 relative">
+            <button onclick="closeProductModal()" class="absolute top-4 right-4 z-10 w-9 h-9 rounded-full bg-white/80 hover:bg-white text-gray-700 flex items-center justify-center shadow-md">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <img id="modalImg" src="" alt="" class="w-full h-56 object-cover">
+
+            <div class="p-6 space-y-4">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <span id="modalCategory" class="text-[11px] font-extrabold uppercase tracking-wider text-orange-600 bg-orange-100 px-2.5 py-1 rounded-md"></span>
+                        <h3 id="modalTitle" class="text-xl font-extrabold text-gray-900 mt-2"></h3>
+                    </div>
+                    <span id="modalPrice" class="text-xl font-black text-orange-600"></span>
+                </div>
+
+                <p id="modalDesc" class="text-xs text-gray-600 leading-relaxed"></p>
+
+                <div class="bg-amber-50 p-3 rounded-2xl border border-amber-100 flex items-center justify-between text-xs text-gray-600">
+                    <span class="flex items-center gap-1.5 font-medium"><i class="fa-solid fa-clock text-amber-500"></i> Ketahanan: <strong id="modalShelfLife">3 Hari</strong></span>
+                    <span class="flex items-center gap-1.5 font-medium"><i class="fa-solid fa-box text-amber-500"></i> Kemasan: <strong>Pouch Premium</strong></span>
+                </div>
+
+                <button id="modalAddBtn" class="w-full py-3.5 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-2xl shadow-md transition-colors flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-cart-plus"></i> Tambahkan Ke Keranjang
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 bg-gray-900 text-white text-xs font-semibold px-5 py-3 rounded-full shadow-2xl flex items-center gap-2.5 transform translate-y-16 opacity-0 transition-all duration-300 pointer-events-none">
+        <i class="fa-solid fa-circle-check text-emerald-400 text-base"></i>
+        <span id="toastMsg">Jajanan berhasil ditambahkan!</span>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // Catalog Products Data
+        const products = [
+            {
+                id: 1,
+                name: 'Klepon Lumer Gula Aren',
+                category: 'pasar',
+                categoryName: 'Jajanan Pasar',
+                price: 15000,
+                rating: 4.9,
+                reviews: 142,
+                image: 'https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?q=80&w=500&auto=format&fit=crop',
+                desc: 'Klepon khas Jawa yang terbuat dari tepung ketan alami dengan isian gula aren murni melimpah yang lumer saat digigit.',
+                shelfLife: '2 Hari (Suhu Ruang)',
+                badge: 'Best Seller'
+            },
+            {
+                id: 2,
+                name: 'Basreng Pedas Daun Jeruk',
+                category: 'renyah',
+                categoryName: 'Keripik & Renyah',
+                price: 18000,
+                rating: 4.8,
+                reviews: 210,
+                image: 'https://images.unsplash.com/photo-1599490659213-e2b9527bd087?q=80&w=500&auto=format&fit=crop',
+                desc: 'Bakso goreng gurih yang diiris tipis renyah dengan bumbu cabai rawit asli dan aroma wangi daun jeruk segar.',
+                shelfLife: '3 Bulan',
+                badge: 'Pedas Mantap'
+            },
+            {
+                id: 3,
+                name: 'Risoles Mayonaise Smoked Beef',
+                category: 'basah',
+                categoryName: 'Kue & Pastry',
+                price: 20000,
+                rating: 4.9,
+                reviews: 98,
+                image: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?q=80&w=500&auto=format&fit=crop',
+                desc: 'Risoles dengan kulit renyah di luar, berisikan daging smoked beef premium, telur, dan racikan mayo spesial (Isi 5 pcs).',
+                shelfLife: '2 Hari',
+                badge: 'Favorit'
+            },
+            {
+                id: 4,
+                name: 'Makaroni Pedas Level 10',
+                category: 'kekinian',
+                categoryName: 'Snack Kekinian',
+                price: 12000,
+                rating: 4.7,
+                reviews: 85,
+                image: 'https://images.unsplash.com/photo-1585032226651-759b368d7246?q=80&w=500&auto=format&fit=crop',
+                desc: 'Makaroni goreng bumbu pedas manis gurih yang meledak di mulut. Pas banget buat teman nonton atau belajar!',
+                shelfLife: '6 Bulan',
+                badge: 'Super Pedas'
+            },
+            {
+                id: 5,
+                name: 'Lapis Legit Special Butter',
+                category: 'basah',
+                categoryName: 'Kue & Pastry',
+                price: 45000,
+                rating: 5.0,
+                reviews: 64,
+                image: 'https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=500&auto=format&fit=crop',
+                desc: 'Kue lapis lezat berbahan butter impor murni, berlapis-lapis lembut dengan wangi rempah manis yang khas.',
+                shelfLife: '7 Hari',
+                badge: 'Premium'
+            },
+            {
+                id: 6,
+                name: 'Cireng Bumbu Rujak Pedas',
+                category: 'kekinian',
+                categoryName: 'Snack Kekinian',
+                price: 15000,
+                rating: 4.8,
+                reviews: 112,
+                image: 'https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?q=80&w=500&auto=format&fit=crop',
+                desc: 'Acip digoreng renyah kenyal disajikan lengkap dengan cocolan bumbu rujak pedas manis asam segar (Isi 10 pcs).',
+                shelfLife: '5 Hari (Kulkas)',
+                badge: 'Crispy'
+            },
+            {
+                id: 7,
+                name: 'Keripik Kaca Extra Pedas',
+                category: 'renyah',
+                categoryName: 'Keripik & Renyah',
+                price: 14000,
+                rating: 4.7,
+                reviews: 76,
+                image: 'https://images.unsplash.com/photo-1566478989037-eec170784d0b?q=80&w=500&auto=format&fit=crop',
+                desc: 'Keripik beling tipis transparan dari singkong pilihan bermandikan minyak cabai dan rempah giling asli.',
+                shelfLife: '4 Bulan',
+                badge: 'Viral'
+            },
+            {
+                id: 8,
+                name: 'Es Cendol Durian Sawarga',
+                category: 'minuman',
+                categoryName: 'Minuman Segar',
+                price: 18000,
+                rating: 4.9,
+                reviews: 130,
+                image: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?q=80&w=500&auto=format&fit=crop',
+                desc: 'Minuman cendol pandan wangi dengan kuah santan gurih, gula aren cair, dan topping daging durian asli.',
+                shelfLife: '1 Hari',
+                badge: 'Segar'
+            }
+        ];
+
+        // App State
+        let cart = [];
+        let currentCategory = 'all';
+
+        // Render Product Cards
+        function renderProducts(itemsToRender = products) {
+            const grid = document.getElementById('productGrid');
+            const empty = document.getElementById('emptyState');
+            grid.innerHTML = '';
+
+            if (itemsToRender.length === 0) {
+                empty.classList.remove('hidden');
+                observeReveals();
+                return;
+            }
+            empty.classList.add('hidden');
+
+            itemsToRender.forEach((p, index) => {
+                const card = document.createElement('div');
+                const delayClass = `delay-${((index % 4) + 1) * 100}`;
+                card.className = `reveal ${delayClass} bg-white rounded-3xl overflow-hidden border border-amber-100/90 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between group`;
+                
+                card.innerHTML = `
+                    <div class="relative overflow-hidden cursor-pointer" onclick="openProductModal(${p.id})">
+                        <img src="${p.image}" 
+                             onerror="this.src='https://placehold.co/400x300/f97316/ffffff?text=${encodeURIComponent(p.name)}'" 
+                             alt="${p.name}" 
+                             class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                        <span class="absolute top-3 left-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider shadow-md">
+                            ${p.badge}
+                        </span>
+                        <div class="absolute bottom-3 right-3 bg-white/95 backdrop-blur-md px-2.5 py-1 rounded-full text-xs font-bold text-stone-800 flex items-center gap-1 shadow">
+                            <i class="fa-solid fa-star text-amber-400"></i> ${p.rating}
+                        </div>
+                    </div>
+
+                    <div class="p-5 flex-grow flex flex-col justify-between space-y-3">
+                        <div>
+                            <span class="text-[10px] font-extrabold text-amber-600 uppercase tracking-wider">${p.categoryName}</span>
+                            <h3 class="font-extrabold text-stone-800 text-base group-hover:text-orange-600 transition-colors line-clamp-1 cursor-pointer mt-0.5" onclick="openProductModal(${p.id})">
+                                ${p.name}
+                            </h3>
+                            <p class="text-xs text-stone-500 mt-1 line-clamp-2 leading-relaxed">${p.desc}</p>
+                        </div>
+
+                        <div class="pt-3 border-t border-amber-100/70 flex items-center justify-between">
+                            <div>
+                                <span class="text-[10px] text-stone-400 font-medium block">Harga</span>
+                                <span class="text-lg font-black text-orange-600">Rp ${p.price.toLocaleString('id-ID')}</span>
+                            </div>
+                            <button onclick="addToCart(${p.id})" class="px-4 py-2.5 bg-amber-100/80 hover:bg-gradient-to-r hover:from-orange-600 hover:to-amber-500 text-orange-700 hover:text-white rounded-2xl font-bold text-xs transition-all duration-300 flex items-center gap-1.5 shadow-sm active:scale-95">
+                                <i class="fa-solid fa-plus"></i> Tambah
+                            </button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            observeReveals();
+        }
+
+        // Filter Category
+        function setCategory(cat, btnEl) {
+            currentCategory = cat;
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('bg-gradient-to-r', 'from-orange-600', 'to-amber-500', 'text-white', 'border-transparent', 'shadow-md', 'shadow-orange-500/25');
+                btn.classList.add('bg-white', 'text-stone-600', 'border-amber-200/80');
+            });
+
+            if (btnEl) {
+                btnEl.classList.remove('bg-white', 'text-stone-600', 'border-amber-200/80');
+                btnEl.classList.add('bg-gradient-to-r', 'from-orange-600', 'to-amber-500', 'text-white', 'border-transparent', 'shadow-md', 'shadow-orange-500/25');
+            }
+
+            filterProducts();
+        }
+
+        // Filter Products Search & Category
+        function filterProducts() {
+            const query = (document.getElementById('searchInput').value || '').toLowerCase();
+            let filtered = products;
+
+            if (currentCategory !== 'all') {
+                filtered = filtered.filter(p => p.category === currentCategory);
+            }
+
+            if (query.trim() !== '') {
+                filtered = filtered.filter(p => p.name.toLowerCase().includes(query) || p.desc.toLowerCase().includes(query));
+            }
+
+            renderProducts(filtered);
+        }
+
+        function filterProductsMobile() {
+            const query = (document.getElementById('mobileSearchInput').value || '').toLowerCase();
+            let filtered = products.filter(p => p.name.toLowerCase().includes(query));
+            renderProducts(filtered);
+        }
+
+        // Cart Actions
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            const existing = cart.find(item => item.id === productId);
+
+            if (existing) {
+                existing.qty += 1;
+            } else {
+                cart.push({ ...product, qty: 1 });
+            }
+
+            updateCartUI();
+            showToast(`"${product.name}" masuk keranjang!`);
+        }
+
+        function updateCartQty(id, delta) {
+            const item = cart.find(i => i.id === id);
+            if (item) {
+                item.qty += delta;
+                if (item.qty <= 0) {
+                    cart = cart.filter(i => i.id !== id);
+                }
+            }
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const badge = document.getElementById('cartBadge');
+            const totalItems = cart.reduce((sum, i) => sum + i.qty, 0);
+            
+            badge.innerText = totalItems;
+            if (totalItems > 0) {
+                badge.classList.remove('scale-0');
+            } else {
+                badge.classList.add('scale-0');
+            }
+
+            // Render Drawer List
+            const container = document.getElementById('cartItemsContainer');
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-16 text-gray-400">
+                        <i class="fa-solid fa-basket-shopping text-5xl mb-3 text-amber-200"></i>
+                        <p class="text-sm font-semibold">Keranjang kamu masih kosong</p>
+                        <p class="text-xs mt-1">Yuk pilih jajanan lezat sekarang!</p>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = cart.map(item => `
+                    <div class="flex items-center gap-3 bg-amber-50/50 p-3 rounded-2xl border border-amber-100">
+                        <img src="${item.image}" onerror="this.src='https://placehold.co/100x100/f97316/ffffff?text=Jajanan'" class="w-14 h-14 object-cover rounded-xl">
+                        <div class="flex-grow">
+                            <h4 class="font-bold text-xs text-gray-800 line-clamp-1">${item.name}</h4>
+                            <span class="text-xs text-orange-600 font-extrabold">Rp ${(item.price * item.qty).toLocaleString('id-ID')}</span>
+                            <div class="flex items-center gap-2 mt-1">
+                                <button onclick="updateCartQty(${item.id}, -1)" class="w-6 h-6 rounded-lg bg-white border border-amber-200 text-xs font-bold text-gray-600 hover:bg-orange-500 hover:text-white transition-colors">-</button>
+                                <span class="text-xs font-bold text-gray-800">${item.qty}</span>
+                                <button onclick="updateCartQty(${item.id}, 1)" class="w-6 h-6 rounded-lg bg-white border border-amber-200 text-xs font-bold text-gray-600 hover:bg-orange-500 hover:text-white transition-colors">+</button>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            // Calculate Subtotal & Total
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+
+            document.getElementById('subtotalPrice').innerText = `Rp ${subtotal.toLocaleString('id-ID')}`;
+            document.getElementById('totalPrice').innerText = `Rp ${subtotal.toLocaleString('id-ID')}`;
+        }
+
+        // WhatsApp Checkout Integrator
+        function checkoutToWhatsApp() {
+            if (cart.length === 0) {
+                showToast('Keranjang belanja masih kosong!');
+                return;
+            }
+
+            const name = document.getElementById('customerName').value.trim();
+            const address = document.getElementById('customerAddress').value.trim();
+
+            if (!name || !address) {
+                showToast('Mohon lengkapi nama dan alamat pengiriman!');
+                return;
+            }
+
+            const phone = '6285867815390';
+            let message = `Halo admin *JajanYuk! Pekalongan*, saya ingin memesan jajanan:\n\n`;
+            message += `*Data Pemesan:*\n`;
+            message += `Nama: ${name}\n`;
+            message += `Alamat: ${address}\n\n`;
+            message += `*Daftar Pesanan:*\n`;
+
+            let total = 0;
+            cart.forEach((item, index) => {
+                const itemTotal = item.price * item.qty;
+                total += itemTotal;
+                message += `${index + 1}. ${item.name} (${item.qty}x) - Rp ${itemTotal.toLocaleString('id-ID')}\n`;
+            });
+
+            message += `\n*Total Pembayaran: Rp ${total.toLocaleString('id-ID')}*\n\n`;
+            message += `Mohon info ketersediaan dan ongkos kirimnya. Terima kasih!`;
+
+            const whatsappUrl = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
+        }
+
+        // Cart Slide-over Drawer Toggle
+        function toggleCartDrawer() {
+            const drawer = document.getElementById('cartDrawer');
+            const backdrop = document.getElementById('cartBackdrop');
+            const isClosed = drawer.classList.contains('translate-x-full');
+
+            if (isClosed) {
+                drawer.classList.remove('translate-x-full');
+                backdrop.classList.remove('opacity-0', 'pointer-events-none');
+            } else {
+                drawer.classList.add('translate-x-full');
+                backdrop.classList.add('opacity-0', 'pointer-events-none');
+            }
+        }
+
+        // Product Detail Modal Controls
+        function openProductModal(productId) {
+            const p = products.find(item => item.id === productId);
+            if (!p) return;
+
+            document.getElementById('modalImg').src = p.image;
+            document.getElementById('modalImg').alt = p.name;
+            document.getElementById('modalCategory').innerText = p.categoryName;
+            document.getElementById('modalTitle').innerText = p.name;
+            document.getElementById('modalPrice').innerText = `Rp ${p.price.toLocaleString('id-ID')}`;
+            document.getElementById('modalDesc').innerText = p.desc;
+            document.getElementById('modalShelfLife').innerText = p.shelfLife;
+
+            document.getElementById('modalAddBtn').onclick = function () {
+                addToCart(p.id);
+                closeProductModal();
+            };
+
+            const modal = document.getElementById('productModal');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modal.firstElementChild.classList.remove('scale-95');
+        }
+
+        function closeProductModal() {
+            const modal = document.getElementById('productModal');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.firstElementChild.classList.add('scale-95');
+        }
+
+        // Mobile Navigation Toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const icon = document.getElementById('menuIcon');
+            menu.classList.toggle('hidden');
+
+            if (menu.classList.contains('hidden')) {
+                icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars');
+            } else {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-xmark');
+            }
+        }
+
+        // FAQ Accordion Toggle
+        function toggleFaq(id) {
+            const ans = document.getElementById(`faq-ans-${id}`);
+            const icon = document.getElementById(`faq-icon-${id}`);
+            ans.classList.toggle('hidden');
+            icon.classList.toggle('rotate-180');
+        }
+
+        // Toast Notification Helper
+        let toastTimeout;
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toastMsg');
+            toastMsg.innerText = message;
+
+            toast.classList.remove('translate-y-16', 'opacity-0');
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => {
+                toast.classList.add('translate-y-16', 'opacity-0');
+            }, 2600);
+        }
+
+        // Scroll Reveal Animation Observer
+        function observeReveals() {
+            const reveals = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.12 });
+
+            reveals.forEach(el => observer.observe(el));
+        }
+
+        // Animated Number Counters
+        function initCounters() {
+            const counters = document.querySelectorAll('.counter');
+            const counterObserver = new IntersectionObserver((entries, obs) => {
+                entries.forEach(entry => {
+                    if (!entry.isIntersecting) return;
+                    const el = entry.target;
+                    const target = parseInt(el.dataset.target, 10);
+                    const suffix = el.dataset.suffix || '';
+                    const duration = 1400;
+                    const startTime = performance.now();
+
+                    function update(now) {
+                        const progress = Math.min((now - startTime) / duration, 1);
+                        const eased = 1 - Math.pow(1 - progress, 3);
+                        const current = Math.floor(eased * target);
+                        el.innerText = current.toLocaleString('id-ID') + suffix;
+                        if (progress < 1) {
+                            requestAnimationFrame(update);
+                        } else {
+                            el.innerText = target.toLocaleString('id-ID') + suffix;
+                        }
+                    }
+
+                    requestAnimationFrame(update);
+                    obs.unobserve(el);
+                });
+            }, { threshold: 0.5 });
+
+            counters.forEach(c => counterObserver.observe(c));
+        }
+
+        // Scroll Progress Indicator & Header Shadow
+        window.addEventListener('scroll', () => {
+            const scrollTop = window.scrollY;
+            const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+            const progressBar = document.getElementById('scrollProgress');
+            if (progressBar) {
+                progressBar.style.width = `${progress}%`;
+            }
+
+            const header = document.getElementById('mainHeader');
+            if (header) {
+                if (scrollTop > 20) {
+                    header.classList.add('shadow-md');
+                } else {
+                    header.classList.remove('shadow-md');
+                }
+            }
+        });
+
+        // Initialize App on Window Load
+        window.onload = function () {
+            renderProducts();
+            updateCartUI();
+            observeReveals();
+            initCounters();
+        };
+    </script>
+</body>
+</html>
