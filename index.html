@@ -3,6 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#EA580C">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="JajanYuk!">
+    <link rel="manifest" id="pwaManifest">
+    <link rel="apple-touch-icon" id="appleTouchIcon">
     <title>JajanYuk! - Jajanan Nusantara & Kekinian Serba Lezat</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -178,6 +185,12 @@
                         <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-amber-500 text-xs"></i>
                     </div>
 
+                    <!-- PWA Install App Button (Desktop & Tablet) -->
+                    <button id="pwaInstallBtn" onclick="triggerPWAInstall()" title="Unduh Aplikasi JajanYuk! ke Perangkat" class="hidden sm:inline-flex items-center gap-2 px-3.5 py-2.5 bg-orange-100/90 hover:bg-orange-600 text-orange-700 hover:text-white border border-orange-200 rounded-full text-xs font-bold transition-all duration-300 shadow-sm hover:shadow-md hover:-translate-y-0.5 focus:outline-none">
+                        <i class="fa-solid fa-download"></i>
+                        <span class="hidden xl:inline">Unduh App</span>
+                    </button>
+
                     <!-- Cart Trigger Button -->
                     <button onclick="toggleCartDrawer()" aria-label="Buka Keranjang" class="relative p-3 bg-white hover:bg-orange-600 hover:text-white border border-amber-200/80 rounded-full text-orange-700 transition-all duration-300 focus:outline-none shadow-sm hover:shadow-md hover:-translate-y-0.5">
                         <i class="fa-solid fa-shopping-bag text-lg"></i>
@@ -206,6 +219,9 @@
             <a href="#cara-pesan" onclick="toggleMobileMenu()" class="block py-2 font-semibold text-stone-700 hover:text-orange-600">Cara Pemesanan</a>
             <a href="#testimoni" onclick="toggleMobileMenu()" class="block py-2 font-semibold text-stone-700 hover:text-orange-600">Testimoni</a>
             <a href="#faq" onclick="toggleMobileMenu()" class="block py-2 font-semibold text-stone-700 hover:text-orange-600">FAQ</a>
+            <button onclick="toggleMobileMenu(); triggerPWAInstall();" class="w-full mt-2 py-2.5 px-4 bg-gradient-to-r from-orange-600 to-amber-500 text-white font-bold text-sm rounded-xl flex items-center justify-center gap-2 shadow-sm">
+                <i class="fa-solid fa-download"></i> Unduh Aplikasi (PWA)
+            </button>
         </div>
     </header>
 
@@ -265,9 +281,9 @@
 
                             <div class="relative bg-white/95 backdrop-blur p-3.5 rounded-[2rem] shadow-2xl border border-amber-100 animate-float-slow">
                                 <div class="overflow-hidden rounded-2xl">
-                                    <img src="https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?q=80&w=800&auto=format&fit=crop" 
-                                         onerror="this.src='https://placehold.co/600x450/f97316/ffffff?text=Jajanan+Nusantara'" 
-                                         alt="Jajanan Nusantara" 
+                                    <img src="https://images.unsplash.com/photo-1601050690597-df0568f70950?q=80&w=800&auto=format&fit=crop" 
+                                         onerror="this.src='https://placehold.co/600x450/f97316/ffffff?text=Risoles+Mayonaise+Best+Seller'" 
+                                         alt="Risoles Mayonaise Smoked Beef - Best Seller" 
                                          class="w-full h-80 sm:h-96 object-cover hover:scale-105 transition-transform duration-700">
                                 </div>
                                 
@@ -284,7 +300,7 @@
 
                                 <!-- Floating Badge Top Right -->
                                 <div class="absolute -top-4 -right-3 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold text-xs px-4 py-2.5 rounded-2xl shadow-lg border-2 border-white flex items-center gap-1.5 animate-float-delayed">
-                                    <i class="fa-solid fa-crown text-yellow-200"></i> Best Seller No.1
+                                    <i class="fa-solid fa-crown text-yellow-200"></i> Best Seller No.1 • Risoles
                                 </div>
                             </div>
                         </div>
@@ -658,7 +674,7 @@
                         <i id="faq-icon-3" class="fa-solid fa-chevron-down text-orange-500 transition-transform duration-300"></i>
                     </button>
                     <div id="faq-ans-3" class="hidden p-5 pt-0 text-sm text-stone-600 border-t border-amber-100/60 leading-relaxed">
-                        Ya! Untuk kategori Keripik & Snack Kekinian kami melayani pengiriman ke seluruh wilayah Indonesia dengan ekspedisi kilat (JNE, J&T, SiCepat).
+                        Mohon maaf, saat ini JajanYuk! Pekalongan belum bisa melayani pengiriman ke luar kota. Kami hanya melayani pengantaran di wilayah Pekalongan dan sekitarnya demi menjaga kesegaran serta kualitas jajanan yang dibuat fresh setiap hari tanpa bahan pengawet.
                     </div>
                 </div>
             </div>
@@ -798,6 +814,48 @@
         </div>
     </div>
 
+    <!-- PWA INSTALL GUIDE MODAL -->
+    <div id="pwaModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 opacity-0 pointer-events-none transition-opacity duration-300">
+        <div class="bg-white w-full max-w-md rounded-3xl overflow-hidden shadow-2xl transform scale-95 transition-transform duration-300 relative p-6 space-y-4">
+            <button onclick="closePwaModal()" class="absolute top-4 right-4 w-8 h-8 rounded-full bg-stone-100 hover:bg-stone-200 text-stone-600 flex items-center justify-center">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-orange-600 to-amber-400 text-white flex items-center justify-center text-xl shadow-md">
+                    <i class="fa-solid fa-mobile-screen-button"></i>
+                </div>
+                <div>
+                    <h3 class="font-extrabold text-lg text-stone-900">Pasang Aplikasi JajanYuk!</h3>
+                    <span class="text-xs text-orange-600 font-semibold">Progressive Web App (Chrome)</span>
+                </div>
+            </div>
+
+            <p class="text-xs text-stone-600 leading-relaxed">
+                Pasang aplikasi <strong>JajanYuk! Pekalongan</strong> langsung ke layar utama HP atau komputer Anda agar akses pemesanan lebih cepat seperti aplikasi native:
+            </p>
+
+            <div class="bg-amber-50/80 border border-amber-200/80 rounded-2xl p-4 space-y-2.5 text-xs text-stone-700">
+                <div class="flex items-start gap-2.5">
+                    <span class="w-5 h-5 rounded-full bg-orange-600 text-white font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5">1</span>
+                    <span>Buka halaman ini melalui browser <strong>Google Chrome</strong> (bukan di dalam mode pratinjau/iframe).</span>
+                </div>
+                <div class="flex items-start gap-2.5">
+                    <span class="w-5 h-5 rounded-full bg-orange-600 text-white font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5">2</span>
+                    <span>Ketuk ikon menu titik tiga <strong>(⋮)</strong> di pojok kanan atas Chrome.</span>
+                </div>
+                <div class="flex items-start gap-2.5">
+                    <span class="w-5 h-5 rounded-full bg-orange-600 text-white font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5">3</span>
+                    <span>Pilih <strong>"Instal aplikasi"</strong> atau <strong>"Tambahkan ke Layar Utama"</strong>, lalu konfirmasi.</span>
+                </div>
+            </div>
+
+            <button onclick="closePwaModal()" class="w-full py-3 bg-gradient-to-r from-orange-600 to-amber-500 text-white font-bold text-xs rounded-2xl shadow-md hover:opacity-95 transition-opacity">
+                Mengerti
+            </button>
+        </div>
+    </div>
+
     <!-- TOAST NOTIFICATION -->
     <div id="toast" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 bg-gray-900 text-white text-xs font-semibold px-5 py-3 rounded-full shadow-2xl flex items-center gap-2.5 transform translate-y-16 opacity-0 transition-all duration-300 pointer-events-none">
         <i class="fa-solid fa-circle-check text-emerald-400 text-base"></i>
@@ -816,10 +874,10 @@
                 price: 15000,
                 rating: 4.9,
                 reviews: 142,
-                image: 'https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?q=80&w=500&auto=format&fit=crop',
+                image: 'https://commons.wikimedia.org/wiki/Special:FilePath/Klepon_Top_View.jpg?width=800',
                 desc: 'Klepon khas Jawa yang terbuat dari tepung ketan alami dengan isian gula aren murni melimpah yang lumer saat digigit.',
                 shelfLife: '2 Hari (Suhu Ruang)',
-                badge: 'Best Seller'
+                badge: 'Klasik Favorit'
             },
             {
                 id: 2,
@@ -845,7 +903,7 @@
                 image: 'https://images.unsplash.com/photo-1601050690597-df0568f70950?q=80&w=500&auto=format&fit=crop',
                 desc: 'Risoles dengan kulit renyah di luar, berisikan daging smoked beef premium, telur, dan racikan mayo spesial (Isi 5 pcs).',
                 shelfLife: '2 Hari',
-                badge: 'Favorit'
+                badge: 'Best Seller'
             },
             {
                 id: 4,
@@ -935,7 +993,7 @@
                 const card = document.createElement('div');
                 const delayClass = `delay-${((index % 4) + 1) * 100}`;
                 card.className = `reveal ${delayClass} bg-white rounded-3xl overflow-hidden border border-amber-100/90 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between group`;
-                
+
                 card.innerHTML = `
                     <div class="relative overflow-hidden cursor-pointer" onclick="openProductModal(${p.id})">
                         <img src="${p.image}" 
@@ -1044,7 +1102,7 @@
         function updateCartUI() {
             const badge = document.getElementById('cartBadge');
             const totalItems = cart.reduce((sum, i) => sum + i.qty, 0);
-            
+
             badge.innerText = totalItems;
             if (totalItems > 0) {
                 badge.classList.remove('scale-0');
@@ -1269,12 +1327,140 @@
             }
         });
 
+        // ==========================================
+        // PWA (PROGRESSIVE WEB APP) CONFIGURATION
+        // ==========================================
+        let deferredPrompt = null;
+
+        function generatePwaIconDataUrl(size) {
+            const canvas = document.createElement('canvas');
+            canvas.width = size;
+            canvas.height = size;
+            const ctx = canvas.getContext('2d');
+
+            // Orange gradient background
+            const grad = ctx.createLinearGradient(0, 0, size, size);
+            grad.addColorStop(0, '#EA580C');
+            grad.addColorStop(1, '#F59E0B');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, size, size);
+
+            // Inner soft cream circle
+            ctx.beginPath();
+            ctx.arc(size / 2, size / 2, size * 0.34, 0, Math.PI * 2);
+            ctx.fillStyle = '#FFF7ED';
+            ctx.fill();
+
+            // Brand monogram "JY!"
+            ctx.fillStyle = '#C2410C';
+            ctx.font = `800 ${Math.round(size * 0.24)}px sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('JY!', size / 2, size / 2 + size * 0.02);
+
+            return canvas.toDataURL('image/png');
+        }
+
+        function initPWA() {
+            try {
+                const icon192 = generatePwaIconDataUrl(192);
+                const icon512 = generatePwaIconDataUrl(512);
+
+                const appleTouch = document.getElementById('appleTouchIcon');
+                if (appleTouch) appleTouch.href = icon192;
+
+                // Use absolute origin URLs so Chrome resolves start_url & scope properly from a blob manifest
+                const baseOrigin = window.location.origin && window.location.origin !== 'null'
+                    ? window.location.origin
+                    : 'https://jajanyuk-pekalongan.vercel.app';
+                const startUrl = baseOrigin + (window.location.pathname || '/');
+                const scopeUrl = baseOrigin + '/';
+
+                const manifestObj = {
+                    id: startUrl,
+                    name: 'JajanYuk! Pekalongan - Jajanan Nusantara & Kekinian',
+                    short_name: 'JajanYuk!',
+                    description: 'Katalog jajanan pasar Nusantara dan camilan kekinian khas Pekalongan fresh setiap hari.',
+                    start_url: startUrl,
+                    scope: scopeUrl,
+                    display: 'standalone',
+                    orientation: 'portrait-primary',
+                    background_color: '#FFF7ED',
+                    theme_color: '#EA580C',
+                    icons: [
+                        {
+                            src: icon192,
+                            sizes: '192x192',
+                            type: 'image/png',
+                            purpose: 'any'
+                        },
+                        {
+                            src: icon512,
+                            sizes: '512x512',
+                            type: 'image/png',
+                            purpose: 'any maskable'
+                        }
+                    ]
+                };
+
+                const manifestBlob = new Blob([JSON.stringify(manifestObj)], { type: 'application/manifest+json' });
+                const manifestUrl = URL.createObjectURL(manifestBlob);
+                const manifestLink = document.getElementById('pwaManifest');
+                if (manifestLink) manifestLink.href = manifestUrl;
+            } catch (err) {
+                console.warn('PWA init warning:', err);
+            }
+        }
+
+        // Capture Chrome's native install prompt
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            const installBtn = document.getElementById('pwaInstallBtn');
+            if (installBtn) {
+                installBtn.classList.add('animate-pulse');
+            }
+        });
+
+        window.addEventListener('appinstalled', () => {
+            deferredPrompt = null;
+            showToast('Aplikasi JajanYuk! berhasil dipasang di perangkat!');
+        });
+
+        async function triggerPWAInstall() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    showToast('Mengunduh aplikasi JajanYuk!...');
+                }
+                deferredPrompt = null;
+            } else {
+                openPwaModal();
+            }
+        }
+
+        function openPwaModal() {
+            const modal = document.getElementById('pwaModal');
+            if (!modal) return;
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modal.firstElementChild.classList.remove('scale-95');
+        }
+
+        function closePwaModal() {
+            const modal = document.getElementById('pwaModal');
+            if (!modal) return;
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.firstElementChild.classList.add('scale-95');
+        }
+
         // Initialize App on Window Load
         window.onload = function () {
             renderProducts();
             updateCartUI();
             observeReveals();
             initCounters();
+            initPWA();
         };
     </script>
 </body>
